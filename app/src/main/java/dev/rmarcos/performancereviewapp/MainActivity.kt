@@ -1,5 +1,6 @@
 package dev.rmarcos.performancereviewapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -64,14 +66,17 @@ fun Login(modifier: Modifier = Modifier) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isWrongLogin by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xff0C7489)),
         contentAlignment = Alignment.Center
     ) {
-        WrongLoginDialog {
-            isWrongLogin = false
+        if (isWrongLogin){
+            WrongLoginDialog {
+                isWrongLogin = false
+            }
         }
         Column (
             modifier = Modifier
@@ -111,7 +116,10 @@ fun Login(modifier: Modifier = Modifier) {
                         if (user.username == username &&
                             user.password == password) {
                             // call another activity
-
+                            val intent = Intent(context, MenuActivity::class.java)
+                            intent.putExtra("USER", user.username)
+                            context.startActivity(intent)
+                            return@Button
                         }
                         isWrongLogin = true;
                     }
