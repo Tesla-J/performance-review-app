@@ -1,4 +1,4 @@
-package dev.rmarcos.model
+package dev.rmarcos.performancereviewapp.model
 
 enum class Permission {
     COLABORATOR,

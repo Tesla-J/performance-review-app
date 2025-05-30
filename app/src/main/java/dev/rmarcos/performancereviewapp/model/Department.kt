@@ -1,4 +1,4 @@
-package dev.rmarcos.model
+package dev.rmarcos.performancereviewapp.model
 
 data class Department (
     val id: Long,

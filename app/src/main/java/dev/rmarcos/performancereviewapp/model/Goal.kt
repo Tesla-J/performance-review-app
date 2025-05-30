@@ -1,4 +1,4 @@
-package dev.rmarcos.model
+package dev.rmarcos.performancereviewapp.model
 
 // TODO state can automatically change to
 // doing after development plan starts

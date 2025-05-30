@@ -1,4 +1,4 @@
-package dev.rmarcos.model
+package dev.rmarcos.performancereviewapp.model
 
 data class Profile (
     val id: Long,

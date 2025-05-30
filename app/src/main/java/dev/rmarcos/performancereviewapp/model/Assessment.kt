@@ -1,4 +1,4 @@
-package dev.rmarcos.model
+package dev.rmarcos.performancereviewapp.model
 
 import java.time.LocalDate
 
