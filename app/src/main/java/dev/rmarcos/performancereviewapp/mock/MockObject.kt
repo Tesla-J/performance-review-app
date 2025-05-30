@@ -4,7 +4,14 @@ import dev.rmarcos.performancereviewapp.model.*
 import java.time.LocalDate
 import java.util.UUID
 
-val mockObject = object {
+interface MockObject {
+    fun users(): List<User>
+    fun developmentPlans(): List<DevelopmentPlan>
+    fun goals(): List<Goal>
+    fun assessments(): List<Assessment>
+}
+
+val mockObject = object: MockObject {
     private val department1 = Department (
         id = 1,
         name = "IT",
@@ -100,8 +107,8 @@ val mockObject = object {
         permission = Permission.MANAGER,
         profile = profile2
     )
-    fun users(): List<User> = listOf(user1, user2)
-    fun developmentPlans(): List<DevelopmentPlan> = listOf(developmentPlan1, developmentPlan2)
-    fun goals(): List<Goal> = listOf(goal1, goal2, goal3)
-    fun assessments(): List<Assessment> = listOf(assessment1, assessment2)
+    override fun users(): List<User> = listOf(user1, user2)
+    override fun developmentPlans(): List<DevelopmentPlan> = listOf(developmentPlan1, developmentPlan2)
+    override fun goals(): List<Goal> = listOf(goal1, goal2, goal3)
+    override fun assessments(): List<Assessment> = listOf(assessment1, assessment2)
 }
