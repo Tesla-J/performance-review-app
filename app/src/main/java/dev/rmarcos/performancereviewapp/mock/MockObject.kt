@@ -85,12 +85,20 @@ val mockObject = object: MockObject {
         department = department1
     )
     private val profile2 = Profile (
-        id = 1,
+        id = 2,
         name = "Ngola Samuel",
         phone = "+244 9XX XXX XXX",
         altPhone = "+244 9XX XXX XXX",
         role = "Gestor de RH",
         department = department2
+    )
+    private val profile3 = Profile (
+        id = 3,
+        name = "Nvuwu Mbasfumu",
+        phone = "+244 9XX XXX XXX",
+        altPhone = "+244 9XX XXX XXX",
+        role = "HTML backend Developer",
+        department = department1
     )
     private val user1 = User (
         uuid = UUID.randomUUID().toString(),
@@ -105,10 +113,18 @@ val mockObject = object: MockObject {
         username = "nsamuel",
         email = "user@domain.com",
         password = "12345",
-        permission = Permission.MANAGER,
+        permission = Permission.ADMIN,
         profile = profile2
     )
-    override fun users(): List<User> = listOf(user1, user2)
+    private val user3 = User (
+        uuid = UUID.randomUUID().toString(),
+        username = "nfumu",
+        email = "user@domain.com",
+        password = "12345",
+        permission = Permission.COLABORATOR,
+        profile = profile3
+    )
+    override fun users(): List<User> = listOf(user1, user2, user3)
     override fun getUser(username: String): User = users().filter({
         it.username == username
     }).get(0)
