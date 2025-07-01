@@ -4,4 +4,11 @@
     <string name="profile_label">Profile</string>
     <string name="goals_label">Goals</string>
     <string name="users_label">Users</string>
+    <string name="profile_id">ID:</string>
+    <string name="profile_name">Full Name:</string>
+    <string name="profile_phone">Phone Number:</string>
+    <string name="profile_alt_phone">Alternative Phone:</string>
+    <string name="profile_role">Role:</string>
+    <string name="profile_department_name">Department:</string>
+    <string name="profile_email">E-mail:</string>
 </resources>
