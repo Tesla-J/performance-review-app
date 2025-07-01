@@ -48,6 +48,10 @@ import dev.rmarcos.performancereviewapp.ui.theme.PerformanceReviewAppTheme
 import dev.rmarcos.performancereviewapp.mock.mockObject
 
 class MainActivity : ComponentActivity() {
+    companion object Factory {
+        val USER_EXTRA_KEY = "USERNAME_EXTRA"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -117,7 +121,7 @@ fun Login(modifier: Modifier = Modifier) {
                             user.password == password) {
                             // call another activity
                             val intent = Intent(context, MenuActivity::class.java)
-                            intent.putExtra("USER", user.username)
+                            intent.putExtra(MainActivity.USER_EXTRA_KEY, user.username)
                             context.startActivity(intent)
                             return@Button
                         }

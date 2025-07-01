@@ -6,6 +6,7 @@ import java.util.UUID
 
 interface MockObject {
     fun users(): List<User>
+    fun getUser(usename: String) : User
     fun developmentPlans(): List<DevelopmentPlan>
     fun goals(): List<Goal>
     fun assessments(): List<Assessment>
@@ -108,6 +109,9 @@ val mockObject = object: MockObject {
         profile = profile2
     )
     override fun users(): List<User> = listOf(user1, user2)
+    override fun getUser(username: String): User = users().filter({
+        it.username == username
+    }).get(0)
     override fun developmentPlans(): List<DevelopmentPlan> = listOf(developmentPlan1, developmentPlan2)
     override fun goals(): List<Goal> = listOf(goal1, goal2, goal3)
     override fun assessments(): List<Assessment> = listOf(assessment1, assessment2)
