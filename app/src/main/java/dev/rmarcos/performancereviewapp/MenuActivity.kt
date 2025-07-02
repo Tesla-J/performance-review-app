@@ -6,12 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -39,9 +42,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dev.rmarcos.performancereviewapp.mock.mockObject
 import dev.rmarcos.performancereviewapp.model.Goal
 import dev.rmarcos.performancereviewapp.model.Permission
@@ -213,6 +218,19 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
                     navController = navController
                 )
             }
+            composable (
+                MainScreen.Profile.route + "/{username}",
+                arguments = listOf(navArgument("username") {
+                    type = NavType.StringType
+                })
+                ) { backtrackEntry ->
+                val username = backtrackEntry.arguments!!
+                    .getString("username") as String
+                Profile(
+                    user = mockObject.getUser(username),
+                    navController = navController
+                )
+            }
         }
     }
 }
@@ -284,13 +302,22 @@ fun Goals(
     }
 }
 
+@Preview(group = "user-list", showBackground = true)
+@Composable
+fun UsersPreview() {
+    Users(
+        users = mockObject.users(),
+        navController = rememberNavController()
+    )
+}
+
 @Composable
 fun Users(
     modifier: Modifier = Modifier,
     users: List<User>,
     navController: NavController
 ){
-    Column (
+    /*Column (
         modifier = modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -299,6 +326,32 @@ fun Users(
         Text(
             text = "Users"
         )
+    }*/
+    LazyColumn (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ){
+        items(users) { user ->
+            Column (
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .clickable {
+                        navController.navigate(
+                            MainScreen.Profile.route + "/${user.username}"
+                        )
+                    }
+            ){
+                Text(
+                    text = user.profile.name,
+                    fontWeight = FontWeight.Bold
+                )
+                Text (
+                    text = user.profile.role,
+                    fontWeight = FontWeight.Thin
+                )
+            }
+        }
     }
 }
 
