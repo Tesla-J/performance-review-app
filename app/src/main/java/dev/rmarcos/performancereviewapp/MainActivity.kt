@@ -116,7 +116,7 @@ fun Login(modifier: Modifier = Modifier) {
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xffdbeafe)),
                 onClick = { // check login details
-                    mockObject.users().forEach { user ->
+                    mockObject.users().forEachIndexed { index, user ->
                         if (user.username == username &&
                             user.password == password) {
                             // call another activity
@@ -125,7 +125,8 @@ fun Login(modifier: Modifier = Modifier) {
                             context.startActivity(intent)
                             return@Button
                         }
-                        isWrongLogin = true;
+                        else if (index == mockObject.users().size - 1)
+                            isWrongLogin = true;
                     }
                 }
             ){
