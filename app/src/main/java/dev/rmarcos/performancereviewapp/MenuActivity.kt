@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -312,6 +313,33 @@ fun UsersPreview() {
 }
 
 @Composable
+fun UserItem(
+    modifier: Modifier = Modifier,
+    user: User,
+    navController: NavController
+    ){
+    Column (
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(
+                    MainScreen.Profile.route + "/${user.username}"
+                )
+            }
+    ){
+        Text(
+            text = user.profile.name,
+            fontWeight = FontWeight.Bold
+        )
+        Text (
+            text = user.profile.role,
+            fontWeight = FontWeight.Thin
+        )
+    }
+}
+
+@Composable
 fun Users(
     modifier: Modifier = Modifier,
     users: List<User>,
@@ -333,24 +361,10 @@ fun Users(
             .padding(8.dp)
     ){
         items(users) { user ->
-            Column (
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .clickable {
-                        navController.navigate(
-                            MainScreen.Profile.route + "/${user.username}"
-                        )
-                    }
-            ){
-                Text(
-                    text = user.profile.name,
-                    fontWeight = FontWeight.Bold
-                )
-                Text (
-                    text = user.profile.role,
-                    fontWeight = FontWeight.Thin
-                )
-            }
+            UserItem(
+                user = user,
+                navController = navController
+            )
         }
     }
 }
