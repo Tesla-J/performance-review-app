@@ -19,4 +19,5 @@
     <string name="goals_title">Goals</string>
     <string name="show_progress">Show Progress</string>
     <string name="delete">Delete</string>
+    <string name="login_advice">Contact your company\'s admin in case you have problems accessing your account</string>
 </resources>

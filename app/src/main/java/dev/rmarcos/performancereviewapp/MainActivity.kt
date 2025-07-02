@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -74,7 +75,9 @@ fun Login(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xff0C7489)),
+            .background(
+                MaterialTheme.colorScheme.background
+            ),
         contentAlignment = Alignment.Center
     ) {
         if (isWrongLogin){
@@ -89,8 +92,9 @@ fun Login(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextField(
-                modifier = Modifier.padding(8.dp),
-                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.padding(8.dp)
+                    .width(360.dp),
+                //shape = RoundedCornerShape(16.dp),
                 value = username,
                 label = { Text("Username") },
                 placeholder = { Text("username") },
@@ -99,9 +103,10 @@ fun Login(modifier: Modifier = Modifier) {
                 }
             )
             TextField(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(8.dp)
+                    .width(360.dp),
                 value = password,
-                shape = RoundedCornerShape(16.dp),
+                //shape = RoundedCornerShape(16.dp),
                 visualTransformation = PasswordVisualTransformation(),
                 label = { Text("Password") },
                 placeholder = { Text("password") },
@@ -111,10 +116,13 @@ fun Login(modifier: Modifier = Modifier) {
             )
             Button(
                 modifier = Modifier
-                    .width(IntrinsicSize.Max)
-                    .padding(24.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xffdbeafe)),
+                    .width(360.dp)
+                    .padding(top = 24.dp),
+                //shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
                 onClick = { // check login details
                     mockObject.users().forEachIndexed { index, user ->
                         if (user.username == username &&
@@ -131,20 +139,20 @@ fun Login(modifier: Modifier = Modifier) {
                 }
             ){
                 Text(
-                    "Login",
+                    modifier = Modifier.padding(8.dp),
+                    text = "Login",
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
             }
-            Text(
-                modifier = Modifier
-                    .padding(8.dp),
-                text = "Contact your company's admin in case you have problems accessing your account",
-                textAlign = TextAlign.Center,
-                color = Color.White
-            )
-
         }
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp),
+            text = stringResource(R.string.login_advice),
+            textAlign = TextAlign.Center,
+        )
     }
 }
 

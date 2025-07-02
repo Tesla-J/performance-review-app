@@ -22,7 +22,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +35,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -133,6 +138,7 @@ fun Menu(modifier: Modifier = Modifier, user: User) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
     var selectedItem by remember { mutableIntStateOf(0) }
@@ -147,8 +153,22 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
             restoreState = true
         }
     }
+    var title by remember { mutableStateOf("") }
     Scaffold (
         modifier = Modifier,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+                ),
+                title = {
+                    Text(
+                        text = title
+                    )
+                }
+            )
+        },
         bottomBar = {
             NavigationBar {
                 NavigationBarItem(
@@ -215,12 +235,14 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
             modifier = Modifier.padding(paddingValues = paddingValues)
         ) {
             composable (MainScreen.Profile.route) {
+                title = stringResource(R.string.profile_label)
                 Profile(
                     user = user,
                     navController = navController
                 )
             }
             composable (MainScreen.Goals.route) {
+                title = stringResource(R.string.goals_label)
                 Goals(
                     developmentPlans = mockObject.developmentPlans(),
                     user = user,
@@ -228,6 +250,7 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
                 )
             }
             composable (MainScreen.Users.route) {
+                title = stringResource(R.string.users_label)
                 Users(
                     users = mockObject.users(),
                     navController = navController
@@ -241,6 +264,7 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
                 ) { backtrackEntry ->
                 val username = backtrackEntry.arguments!!
                     .getString("username") as String
+                title = stringResource(R.string.profile_label) + " — $username"
                 Profile(
                     user = mockObject.getUser(username),
                     navController = navController
@@ -441,66 +465,71 @@ fun DevelopmentPlanItem(
     onClick: () -> Unit = {}
 ){
     var isExpanded by remember { mutableStateOf(false) }
-    Column(
-        modifier = modifier
-            .padding(top = 16.dp)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer)
-            .clickable(
-                onClick = { isExpanded = !isExpanded }
-            )
-    ){
-        Row(
-            verticalAlignment = Alignment.CenterVertically
+    Card (
+    modifier = modifier
+        .padding(top = 16.dp)
+        //.fillMaxWidth()
+        //.background(MaterialTheme.colorScheme.primaryContainer)
+        .clickable(
+            onClick = { isExpanded = !isExpanded }
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
+){
+    Row(
+        modifier = Modifier.padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = stringResource(R.string.development_plan)
+                    + developmentPlan.department.name,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.labelLarge
+        )
+        Column(
+            modifier = Modifier.weight(1f),
         ) {
             Text(
-                modifier = Modifier.weight(1f),
-                text = stringResource(R.string.development_plan)
-                        + developmentPlan.department.name,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.labelLarge
+                text = stringResource(R.string.start_date)
+                        + developmentPlan.endDate.toString(),
+                fontWeight = FontWeight.Thin
             )
-            Column(
-                modifier = Modifier.weight(1f),
-            ) {
-                Text(
-                    text = stringResource(R.string.start_date)
-                            + developmentPlan.endDate.toString(),
-                    fontWeight = FontWeight.Thin
-                )
-                Text(
-                    text = stringResource(R.string.end_date)
-                            + developmentPlan.endDate.toString(),
-                    fontWeight = FontWeight.Thin
-                )
-            }
-        }
-        if (isExpanded){
             Text(
-                modifier = Modifier.padding(4.dp),
-                text = stringResource(R.string.goals_title),
-                style = MaterialTheme.typography.labelMedium
+                text = stringResource(R.string.end_date)
+                        + developmentPlan.endDate.toString(),
+                fontWeight = FontWeight.Thin
             )
-            mockObject.goals().filter {
-                it.developmentPlan == developmentPlan
-            }.forEach{ goal ->
-                GoalListItem(
-                    modifier = Modifier,
-                    goal = goal)
-            }
-            Button(
-                modifier = Modifier.padding(top = 16.dp),
-                onClick = {
-                    //TODO generate chart
-                }
-            ) {
-                Text(
-                    text = stringResource(R.string.show_progress)
-                )
-            }
-            Spacer(Modifier.padding(bottom = 24.dp))
         }
     }
+    if (isExpanded){
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = stringResource(R.string.goals_title),
+            style = MaterialTheme.typography.labelMedium
+        )
+        mockObject.goals().filter {
+            it.developmentPlan == developmentPlan
+        }.forEach{ goal ->
+            GoalListItem(
+                modifier = Modifier.padding(8.dp),
+                goal = goal)
+        }
+        Button(
+            modifier = Modifier.padding(top = 16.dp)
+                .align(Alignment.CenterHorizontally),
+            onClick = {
+                //TODO generate chart
+            }
+        ) {
+            Text(
+                text = stringResource(R.string.show_progress)
+            )
+        }
+        Spacer(Modifier.padding(bottom = 24.dp))
+    }
+}
 }
 
 @Composable
@@ -550,7 +579,10 @@ fun UserItem(
     user: User,
     navController: NavController
     ){
-    Column (
+    Card (
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
         modifier = Modifier
             .padding(top = 8.dp)
             .fillMaxWidth()
@@ -561,10 +593,13 @@ fun UserItem(
             }
     ){
         Text(
+            modifier = Modifier.padding(top = 8.dp)
+                .padding(4.dp),
             text = user.profile.name,
             fontWeight = FontWeight.Bold
         )
         Text (
+            modifier = Modifier.padding(4.dp),
             text = user.profile.role,
             fontWeight = FontWeight.Thin
         )
