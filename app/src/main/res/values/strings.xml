@@ -11,4 +11,12 @@
     <string name="profile_role">Role:</string>
     <string name="profile_department_name">Department:</string>
     <string name="profile_email">E-mail:</string>
+    <string name="fab_new_plan">New Development Plan</string>
+    <string name="fab_new_goal">New Goal</string>
+    <string name="development_plan">Department Development Plan — </string>
+    <string name="start_date">Start: </string>
+    <string name="end_date">End: </string>
+    <string name="goals_title">Goals</string>
+    <string name="show_progress">Show Progress</string>
+    <string name="delete">Delete</string>
 </resources>
