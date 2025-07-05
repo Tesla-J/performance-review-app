@@ -5,30 +5,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -45,10 +32,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -56,14 +41,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.rmarcos.performancereviewapp.mock.mockObject
-import dev.rmarcos.performancereviewapp.model.DevelopmentPlan
-import dev.rmarcos.performancereviewapp.model.Goal
-import dev.rmarcos.performancereviewapp.model.GoalState
 import dev.rmarcos.performancereviewapp.model.Permission
 import dev.rmarcos.performancereviewapp.model.User
 import dev.rmarcos.performancereviewapp.screens.GoalsList
 import dev.rmarcos.performancereviewapp.screens.MainScreen
-import dev.rmarcos.performancereviewapp.screens.MainScreen.Users
 import dev.rmarcos.performancereviewapp.screens.ProfileScreen
 import dev.rmarcos.performancereviewapp.screens.UserListScreen
 import dev.rmarcos.performancereviewapp.ui.theme.PerformanceReviewAppTheme
@@ -91,7 +72,7 @@ class MenuActivity : ComponentActivity() {
 fun MenuItem(
     modifier: Modifier = Modifier,
     icon: Painter, label: String,
-    contentDescritpion: String,
+    contentDescription: String,
     selected: Boolean = false
 ) {
     Column(
@@ -104,7 +85,7 @@ fun MenuItem(
         Icon(
             modifier = Modifier,
             painter = icon,
-            contentDescription = contentDescritpion
+            contentDescription = contentDescription
         )
         Spacer(
             modifier = Modifier.padding(2.dp),
@@ -283,7 +264,7 @@ fun MenuItemPreview() {
     MenuItem(
         icon = painterResource(R.drawable.baseline_groups_24),
         label = "Profiles",
-        contentDescritpion = "Users",
+        contentDescription = "Users",
         selected = true
     )
 }
