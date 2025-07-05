@@ -1,7 +1,5 @@
 package dev.rmarcos.performancereviewapp
 
-import android.app.Activity
-import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,11 +14,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,14 +43,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
-import androidx.compose.ui.node.ModifierNodeElement
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -71,6 +62,7 @@ import dev.rmarcos.performancereviewapp.model.GoalState
 import dev.rmarcos.performancereviewapp.model.Permission
 import dev.rmarcos.performancereviewapp.model.User
 import dev.rmarcos.performancereviewapp.screens.MainScreen
+import dev.rmarcos.performancereviewapp.screens.ProfileScreen
 import dev.rmarcos.performancereviewapp.ui.theme.PerformanceReviewAppTheme
 
 class MenuActivity : ComponentActivity() {
@@ -236,7 +228,7 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
         ) {
             composable (MainScreen.Profile.route) {
                 title = stringResource(R.string.profile_label)
-                Profile(
+                ProfileScreen(
                     user = user,
                     navController = navController
                 )
@@ -265,62 +257,13 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
                 val username = backtrackEntry.arguments!!
                     .getString("username") as String
                 title = stringResource(R.string.profile_label) + " — $username"
-                Profile(
+                ProfileScreen(
                     user = mockObject.getUser(username),
                     navController = navController
                 )
             }
         }
     }
-}
-
-@Composable
-fun ProfileField(key: String, value: String){
-    Row (
-        modifier = Modifier
-            .padding(4.dp)
-    ){
-        Text(
-            modifier = Modifier.weight(1f),
-            text = key,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            modifier = Modifier.weight(1f),
-            text = value
-        )
-    }
-}
-
-@Composable
-fun Profile(
-    modifier: Modifier = Modifier,
-    user:User,
-    navController: NavController
-){
-    val profile = user.profile
-    Column (
-        modifier = modifier
-            .fillMaxSize()
-            .padding(8.dp),
-    ) {
-        ProfileField(stringResource(R.string.profile_name), profile.name)
-        ProfileField(stringResource(R.string.profile_email), user.email)
-        ProfileField(stringResource(R.string.profile_role), profile.role)
-        ProfileField(stringResource(R.string.profile_phone), profile.phone)
-        ProfileField(stringResource(R.string.profile_alt_phone), profile.altPhone)
-        ProfileField(stringResource(R.string.profile_department_name), profile.department.name)
-    }
-}
-
-@Preview(group = "profile_preview", showSystemUi = true)
-@Composable
-fun ProfilePreview()
-{
-    Profile(
-        user = mockObject.users().get(0),
-        navController = rememberNavController()
-    )
 }
 
 @Preview(group = "goals", showBackground = true)
