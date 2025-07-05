@@ -62,7 +62,9 @@ import dev.rmarcos.performancereviewapp.model.GoalState
 import dev.rmarcos.performancereviewapp.model.Permission
 import dev.rmarcos.performancereviewapp.model.User
 import dev.rmarcos.performancereviewapp.screens.MainScreen
+import dev.rmarcos.performancereviewapp.screens.MainScreen.Users
 import dev.rmarcos.performancereviewapp.screens.ProfileScreen
+import dev.rmarcos.performancereviewapp.screens.UserListScreen
 import dev.rmarcos.performancereviewapp.ui.theme.PerformanceReviewAppTheme
 
 class MenuActivity : ComponentActivity() {
@@ -243,7 +245,7 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
             }
             composable (MainScreen.Users.route) {
                 title = stringResource(R.string.users_label)
-                Users(
+                UserListScreen(
                     users = mockObject.users(),
                     navController = navController
                 )
@@ -504,78 +506,6 @@ fun Goals(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
         )
-    }
-}
-
-@Preview(group = "user-list", showBackground = true)
-@Composable
-fun UsersPreview() {
-    Users(
-        users = mockObject.users(),
-        navController = rememberNavController()
-    )
-}
-
-@Composable
-fun UserItem(
-    modifier: Modifier = Modifier,
-    user: User,
-    navController: NavController
-    ){
-    Card (
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        modifier = Modifier
-            .padding(top = 8.dp)
-            .fillMaxWidth()
-            .clickable {
-                navController.navigate(
-                    MainScreen.Profile.route + "/${user.username}"
-                )
-            }
-    ){
-        Text(
-            modifier = Modifier.padding(top = 8.dp)
-                .padding(4.dp),
-            text = user.profile.name,
-            fontWeight = FontWeight.Bold
-        )
-        Text (
-            modifier = Modifier.padding(4.dp),
-            text = user.profile.role,
-            fontWeight = FontWeight.Thin
-        )
-    }
-}
-
-@Composable
-fun Users(
-    modifier: Modifier = Modifier,
-    users: List<User>,
-    navController: NavController
-){
-    /*Column (
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Users"
-        )
-    }*/
-    LazyColumn (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ){
-        items(users) { user ->
-            UserItem(
-                user = user,
-                navController = navController
-            )
-        }
     }
 }
 
