@@ -14,6 +14,6 @@ data class Goal (
     val description: String,
     val weight: Int,
     val points: Int,
-    val state: GoalState,
+    var state: GoalState,
     val developmentPlan: DevelopmentPlan,
 )

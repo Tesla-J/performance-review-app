@@ -1,5 +1,6 @@
 package dev.rmarcos.performancereviewapp.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,14 +27,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import co.yml.charts.common.model.PlotType
+import co.yml.charts.ui.piechart.charts.DonutPieChart
+import co.yml.charts.ui.piechart.models.PieChartConfig
+import co.yml.charts.ui.piechart.models.PieChartData
 import dev.rmarcos.performancereviewapp.R
 import dev.rmarcos.performancereviewapp.mock.mockObject
 import dev.rmarcos.performancereviewapp.model.DevelopmentPlan
@@ -155,6 +162,10 @@ fun GoalListItem(
                 checked = isDone,
                 onCheckedChange = {
                     isDone = !isDone
+                    mockObject.goals().forEach {
+                        if (it.title == goal.title)
+                            it.state = if (isDone) GoalState.DONE else GoalState.FAILED
+                    }
                     // save modifications
                 }
             )
@@ -174,6 +185,49 @@ fun GoalsPreview(){
         developmentPlans = mockObject.developmentPlans(),
         user = mockObject.getUser("lmandume"),
         navController = rememberNavController()
+    )
+}
+
+fun donutChartData(
+    developmentPlan: DevelopmentPlan,
+    doneLabel: String,
+    undoneLabel: String
+): PieChartData{
+    val departmentgoals = mockObject.goals().filter { it.developmentPlan == developmentPlan }
+    val doneDepartmentGoals = departmentgoals.filter { it.state == GoalState.DONE }
+    val totalPoints = departmentgoals.sumOf { it.weight * it.points }
+    val totalPointsDone = doneDepartmentGoals.sumOf { it.weight * it.points }
+    val colorDone =
+    return PieChartData(
+        slices = listOf(
+            PieChartData.Slice(
+                doneLabel,
+                (totalPointsDone / totalPoints) * 100f,
+                Color(0xff00d3f2)
+            ),
+            PieChartData.Slice(
+                undoneLabel,
+                ((totalPoints - totalPointsDone) / totalPoints) * 100f,
+                Color(0xffff6467) // second option #fb2c36
+            )
+        ),
+        plotType = PlotType.Donut
+    )
+}
+
+fun donutChartConfig(
+    developmentPlan: DevelopmentPlan,
+    bgColor: Color
+): PieChartConfig{
+    return PieChartConfig(
+        //percentVisible = true,
+        //percentageFontSize = 42.sp,
+        strokeWidth = 120f,
+        //percentColor = MaterialTheme.colorScheme.primary,
+        activeSliceAlpha = .9f,
+        isAnimationEnable = true,
+        labelVisible = true,
+        backgroundColor = bgColor
     )
 }
 
@@ -235,7 +289,7 @@ fun DevelopmentPlanItem(
                     modifier = Modifier.padding(8.dp),
                     goal = goal)
             }
-            Button(
+            /*Button(
                 modifier = Modifier.padding(top = 16.dp)
                     .align(Alignment.CenterHorizontally),
                 onClick = {
@@ -245,7 +299,19 @@ fun DevelopmentPlanItem(
                 Text(
                     text = stringResource(R.string.show_progress)
                 )
-            }
+            }*/
+            DonutPieChart(
+                modifier = Modifier.wrapContentSize(),
+                pieChartData = donutChartData(
+                    developmentPlan = developmentPlan,
+                    doneLabel = stringResource(R.string.goals_done),
+                    undoneLabel = stringResource(R.string.goals_unfinished)
+                ),
+                pieChartConfig = donutChartConfig(
+                    developmentPlan = developmentPlan,
+                    bgColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+            )
             Spacer(Modifier.padding(bottom = 24.dp))
         }
     }

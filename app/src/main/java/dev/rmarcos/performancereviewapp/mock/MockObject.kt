@@ -124,11 +124,15 @@ val mockObject = object: MockObject {
         permission = Permission.COLABORATOR,
         profile = profile3
     )
-    override fun users(): List<User> = listOf(user1, user2, user3)
-    override fun getUser(username: String): User = users().filter({
+    val userList = mutableListOf(user1, user2, user3)
+    val developmentPlanList = mutableListOf(developmentPlan1, developmentPlan2)
+    val goalsList = mutableListOf(goal1, goal2, goal3)
+    val assessmentList = mutableListOf(assessment1, assessment2)
+    override fun users(): MutableList<User> = userList
+    override fun getUser(username: String): User = userList.filter({
         it.username == username
     }).get(0)
-    override fun developmentPlans(): List<DevelopmentPlan> = listOf(developmentPlan1, developmentPlan2)
-    override fun goals(): List<Goal> = listOf(goal1, goal2, goal3)
-    override fun assessments(): List<Assessment> = listOf(assessment1, assessment2)
+    override fun developmentPlans(): MutableList<DevelopmentPlan> = developmentPlanList
+    override fun goals(): MutableList<Goal> = goalsList
+    override fun assessments(): MutableList<Assessment> = assessmentList
 }
