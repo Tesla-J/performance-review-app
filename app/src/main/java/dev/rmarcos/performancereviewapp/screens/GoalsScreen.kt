@@ -204,19 +204,21 @@ fun donutChartData(
 ): PieChartData{
     val departmentGoals = mockObject.goals().filter { it.developmentPlan == developmentPlan }
     val doneDepartmentGoals = departmentGoals.filter { it.state == GoalState.DONE }
-    val totalPoints = departmentGoals.sumOf { it.weight * it.points }
+    var totalPoints = departmentGoals.sumOf { it.weight * it.points }
+    if (totalPoints == 0)
+        ++totalPoints
     val totalPointsDone = doneDepartmentGoals.sumOf { it.weight * it.points }
     val colorDone = // TODO Why the hell this works?
     return PieChartData(
         slices = listOf(
             PieChartData.Slice(
                 doneLabel,
-                (totalPointsDone / totalPoints) * 100f,
+                (totalPointsDone / totalPoints) + 0f,// * 100f,
                 Color(0xff00d3f2)
             ),
             PieChartData.Slice(
                 undoneLabel,
-                ((totalPoints - totalPointsDone) / totalPoints) * 100f,
+                ((totalPoints - totalPointsDone) / totalPoints) + 0f,// * 100f,
                 Color(0xffff6467) // second option #fb2c36
             )
         ),
