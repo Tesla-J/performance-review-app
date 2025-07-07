@@ -90,7 +90,7 @@ fun NewGoalScreen(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                text = stringResource(R.string.development_plan) + allowedDevelopmentPlan.size + it.department.name
+                                text = stringResource(R.string.development_plan) + it.department.name
                             )
                         },
                         onClick = {
