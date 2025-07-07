@@ -1,6 +1,5 @@
 package dev.rmarcos.performancereviewapp.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -34,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import co.yml.charts.common.model.PlotType
@@ -166,7 +163,6 @@ fun GoalListItem(
                         if (it.title == goal.title)
                             it.state = if (isDone) GoalState.DONE else GoalState.FAILED
                     }
-                    // save modifications
                 }
             )
         }
@@ -193,11 +189,11 @@ fun donutChartData(
     doneLabel: String,
     undoneLabel: String
 ): PieChartData{
-    val departmentgoals = mockObject.goals().filter { it.developmentPlan == developmentPlan }
-    val doneDepartmentGoals = departmentgoals.filter { it.state == GoalState.DONE }
-    val totalPoints = departmentgoals.sumOf { it.weight * it.points }
+    val departmentGoals = mockObject.goals().filter { it.developmentPlan == developmentPlan }
+    val doneDepartmentGoals = departmentGoals.filter { it.state == GoalState.DONE }
+    val totalPoints = departmentGoals.sumOf { it.weight * it.points }
     val totalPointsDone = doneDepartmentGoals.sumOf { it.weight * it.points }
-    val colorDone =
+    val colorDone = // TODO Why the hell this works?
     return PieChartData(
         slices = listOf(
             PieChartData.Slice(
@@ -216,7 +212,6 @@ fun donutChartData(
 }
 
 fun donutChartConfig(
-    developmentPlan: DevelopmentPlan,
     bgColor: Color
 ): PieChartConfig{
     return PieChartConfig(
@@ -308,7 +303,7 @@ fun DevelopmentPlanItem(
                     undoneLabel = stringResource(R.string.goals_unfinished)
                 ),
                 pieChartConfig = donutChartConfig(
-                    developmentPlan = developmentPlan,
+                    //developmentPlan = developmentPlan,
                     bgColor = MaterialTheme.colorScheme.surfaceVariant
                 )
             )
