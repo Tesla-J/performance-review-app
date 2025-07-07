@@ -50,7 +50,10 @@ import dev.rmarcos.performancereviewapp.model.User
 @Composable
 fun FABPreview() {
     Column {
-        ExpandableFloatingActionButton()
+        ExpandableFloatingActionButton(
+            user = mockObject.users().get(0),
+            navController = rememberNavController()
+        )
         SmallFloatingActionButtonWithLabel(
             icon = painterResource(R.drawable.baseline_add_chart_24),
             label = stringResource(R.string.fab_new_plan),
@@ -93,7 +96,9 @@ fun SmallFloatingActionButtonWithLabel(
 
 @Composable
 fun ExpandableFloatingActionButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    user: User
 ) {
     var isExpended by remember { mutableStateOf(false) }
     Column (
@@ -109,7 +114,11 @@ fun ExpandableFloatingActionButton(
             SmallFloatingActionButtonWithLabel(
                 icon = painterResource(R.drawable.baseline_playlist_add_24),
                 label = stringResource(R.string.fab_new_goal),
-                onClick = {}
+                onClick = {
+                    navController.navigate(
+                        MainScreen.NewGoal.route + "/${user.username}"
+                    )
+                }
             )
         }
         FloatingActionButton(
@@ -339,7 +348,9 @@ fun GoalsList(
         ExpandableFloatingActionButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp)
+                .padding(16.dp),
+            user = user,
+            navController = navController
         )
     }
 }

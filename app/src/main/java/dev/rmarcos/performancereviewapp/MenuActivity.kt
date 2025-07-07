@@ -45,6 +45,7 @@ import dev.rmarcos.performancereviewapp.model.Permission
 import dev.rmarcos.performancereviewapp.model.User
 import dev.rmarcos.performancereviewapp.screens.GoalsList
 import dev.rmarcos.performancereviewapp.screens.MainScreen
+import dev.rmarcos.performancereviewapp.screens.NewGoalScreen
 import dev.rmarcos.performancereviewapp.screens.ProfileScreen
 import dev.rmarcos.performancereviewapp.screens.UserListScreen
 import dev.rmarcos.performancereviewapp.ui.theme.PerformanceReviewAppTheme
@@ -242,6 +243,20 @@ fun BottomNavigationBar(modifier: Modifier = Modifier, user: User) {
                     .getString("username") as String
                 title = stringResource(R.string.profile_label) + " — $username"
                 ProfileScreen(
+                    user = mockObject.getUser(username),
+                    navController = navController
+                )
+            }
+            composable (
+                MainScreen.NewGoal.route + "/{username}",
+                arguments = listOf(navArgument("username") {
+                    type = NavType.StringType
+                })
+            ) { backtrackEntry ->
+                val username = backtrackEntry.arguments!!
+                    .getString("username") as String
+                title = stringResource(R.string.new_goal)
+                NewGoalScreen(
                     user = mockObject.getUser(username),
                     navController = navController
                 )

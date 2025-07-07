@@ -22,4 +22,11 @@
     <string name="login_advice">Contact your company\'s admin in case you have problems accessing your account</string>
     <string name="goals_done">Concluded</string>
     <string name="goals_unfinished">Not Concluded</string>
+    <string name="save">Save</string>
+    <string name="choose_development_plan">Choose Development Plan</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="weight">Weight</string>
+    <string name="points">Points</string>
+    <string name="new_goal">New Goal</string>
 </resources>
