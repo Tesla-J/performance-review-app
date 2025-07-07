@@ -109,7 +109,11 @@ fun ExpandableFloatingActionButton(
             SmallFloatingActionButtonWithLabel(
                 icon = painterResource(R.drawable.baseline_add_chart_24),
                 label = stringResource(R.string.fab_new_plan),
-                onClick = {}
+                onClick = {
+                    navController.navigate(
+                        MainScreen.NewPlan.route + "/${user.username}"
+                    )
+                }
             )
             SmallFloatingActionButtonWithLabel(
                 icon = painterResource(R.drawable.baseline_playlist_add_24),

@@ -8,6 +8,8 @@ interface MockObject {
     fun users(): List<User>
     fun getUser(usename: String) : User
     fun developmentPlans(): List<DevelopmentPlan>
+    fun newDevelopmentPlan(plan: DevelopmentPlan)
+    fun departments(): MutableList<Department>
     fun goals(): List<Goal>
     fun newGoal(goal: Goal)
     fun assessments(): List<Assessment>
@@ -127,6 +129,7 @@ val mockObject = object: MockObject {
     )
     val userList = mutableListOf(user1, user2, user3)
     val developmentPlanList = mutableListOf(developmentPlan1, developmentPlan2)
+    val departmentsList = mutableListOf(department1, department2)
     val goalsList = mutableListOf(goal1, goal2, goal3)
     val assessmentList = mutableListOf(assessment1, assessment2)
     override fun users(): MutableList<User> = userList
@@ -134,6 +137,10 @@ val mockObject = object: MockObject {
         it.username == username
     }).get(0)
     override fun developmentPlans(): MutableList<DevelopmentPlan> = developmentPlanList
+    override fun newDevelopmentPlan(plan: DevelopmentPlan) {
+        developmentPlans().add(plan)
+    }
+    override fun departments(): MutableList<Department> = departmentsList
     override fun goals(): MutableList<Goal> = goalsList
     override fun newGoal(goal: Goal) {
         goalsList.add(goal)

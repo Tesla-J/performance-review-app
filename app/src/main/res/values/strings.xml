@@ -29,4 +29,7 @@
     <string name="weight">Weight</string>
     <string name="points">Points</string>
     <string name="new_goal">New Goal</string>
+    <string name="choose_department">Choose Department</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
